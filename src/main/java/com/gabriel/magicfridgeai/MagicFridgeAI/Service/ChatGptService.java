@@ -5,6 +5,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
+import tools.jackson.databind.JsonNode;
 
 @Service
 
@@ -19,6 +20,18 @@ public class ChatGptService {
 
         this.webClient = webClient;
         this.model = model;
+    }
+    private String extrairTexto(JsonNode resposta) {
+        for (JsonNode item : resposta.path("output")) {
+            if ("message".equals(item.path("type").asText())) {
+                for (JsonNode content : item.path("content")) {
+                    if ("output_text".equals(content.path("type").asText())) {
+                        return content.path("text").asText();
+                    }
+                }
+            }
+        }
+        return "A IA não retornou uma resposta em texto.";
     }
 
     public Mono<String> gerarResposta(String prompt){
@@ -40,7 +53,8 @@ public class ChatGptService {
                                     );
                                 })
                 )
-                .bodyToMono(String.class);
+                .bodyToMono(JsonNode.class)
+                .map(this::extrairTexto);
     }
 
 }
