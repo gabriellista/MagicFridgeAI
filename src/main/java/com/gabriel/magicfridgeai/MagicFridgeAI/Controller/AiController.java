@@ -28,7 +28,7 @@ public class AiController {
     public Mono<String> gerarReceita() {
         List<FoodItem> alimentos = foodItemService.listarTodos();
         if (alimentos.isEmpty()){
-            return Mono.just("Nenhum alimento cadastrado. Cadastre alimenstos antes de gerar uma receita.");
+            return Mono.just("Nenhum alimento cadastrado. Cadastre alimentos antes de gerar uma receita.");
         }
 
         String nomesAlimentos = "";
