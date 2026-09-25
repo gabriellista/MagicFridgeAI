@@ -20,10 +20,6 @@ public class AiController {
         this.foodItemService = foodItemService;
     }
 
-    @PostMapping("/test")
-    public Mono<String> testar(@RequestParam String prompt){
-        return chatGptService.gerarResposta(prompt) ;
-    }
     @PostMapping("/receita")
     public Mono<String> gerarReceita() {
         List<FoodItem> alimentos = foodItemService.listarTodos();
@@ -33,7 +29,7 @@ public class AiController {
 
         String nomesAlimentos = "";
         for (FoodItem foodItem : alimentos) {
-            nomesAlimentos += foodItem.getNome() + " - quantidade: " + foodItem.getQuantidade() + ", ";
+            nomesAlimentos += foodItem.getNome() + " - quantidade: " + foodItem.getQuantidade() + " " + foodItem.getUnidade() + ", ";
 
         }
 

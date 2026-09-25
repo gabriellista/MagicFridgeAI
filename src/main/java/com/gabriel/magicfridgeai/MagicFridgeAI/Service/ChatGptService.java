@@ -44,14 +44,11 @@ public class ChatGptService {
                 .onStatus(
                         status -> status.isError(),
                         response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    System.out.println("Erro retornado pela OpenAI:");
-                                    System.out.println(errorBody);
-
-                                    return Mono.error(
-                                            new RuntimeException("Erro na chamada da OpenAI")
-                                    );
-                                })
+                                .flatMap(errorBody ->
+                                        Mono.error(
+                                                new RuntimeException("Não foi possível gerar a resposta da IA")
+                                        )
+                                )
                 )
                 .bodyToMono(JsonNode.class)
                 .map(this::extrairTexto);

@@ -35,6 +35,10 @@ public class FoodItem {
     @Positive(message = "A quantidade deve ser maior que zero")
     private Integer quantidade;
 
+    @NotNull(message = "A unidade de medida é obrigatória")
+    @Enumerated(EnumType.STRING)
+    private UnidadeMedida unidade;
+
     @NotNull(message = "A validade é obrigatória")
     @FutureOrPresent(message = "A validade não pode estar no passado")
     private LocalDate validade;
