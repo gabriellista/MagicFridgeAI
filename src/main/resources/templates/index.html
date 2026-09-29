@@ -1,10 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>MagicFridgeAI</title>
 </head>
 <body>
-$END$
+
+<h1>MagicFridgeAI</h1>
+
+<p>Sua geladeira inteligente</p>
+
+<h2>Alimentos cadastrados</h2>
+
+<h2>Cadastrar alimento</h2>
+
+<form th:action="@{/alimentos/salvar}"
+      th:object="${novoAlimento}"
+      method="post">
+
+    <label>Nome:</label>
+    <input type="text" th:field="*{nome}">
+
+    <span th:if="${#fields.hasErrors('nome')}"
+          th:errors="*{nome}">
+</span>
+
+    <br><br>
+
+    <label>Categoria:</label>
+
+    <select th:field="*{categoria}">
+        <option value="">Selecione</option>
+
+        <option th:each="categoria : ${categorias}"
+                th:value="${categoria}"
+                th:text="${categoria}">
+        </option>
+    </select>
+
+    <span th:if="${#fields.hasErrors('categoria')}"
+          th:errors="*{categoria}">
+</span>
+
+    <br><br>
+
+    <label>Quantidade:</label>
+    <input type="number" th:field="*{quantidade}">
+
+    <span th:if="${#fields.hasErrors('quantidade')}"
+          th:errors="*{quantidade}">
+</span>
+
+
+    <br><br>
+
+    <label>Unidade:</label>
+
+    <select th:field="*{unidade}">
+        <option value="">Selecione</option>
+
+        <option th:each="unidade : ${unidades}"
+                th:value="${unidade}"
+                th:text="${unidade}">
+        </option>
+    </select>
+
+    <span th:if="${#fields.hasErrors('unidade')}"
+          th:errors="*{unidade}">
+</span>
+
+    <br><br>
+
+    <label>Validade:</label>
+    <input type="date" th:field="*{validade}">
+
+    <span th:if="${#fields.hasErrors('validade')}"
+          th:errors="*{validade}">
+</span>
+
+        <br><br>
+
+    <button type="submit">Cadastrar</button>
+
+</form>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Quantidade</th>
+        <th>Unidade</th>
+        <th>Validade</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="alimento : ${alimentos}">
+        <td th:text="${alimento.nome}"></td>
+        <td th:text="${alimento.categoria}"></td>
+        <td th:text="${alimento.quantidade}"></td>
+        <td th:text="${alimento.unidade}"></td>
+        <td th:text="${alimento.validade}"></td>
+        <td>
+            <form th:action="@{/alimentos/excluir/{id}(id=${alimento.id})}"
+                  method="post">
+
+                <button type="submit">Excluir</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Gerar receita</h2>
+
+<form th:action="@{/receita/gerar}" method="post">
+    <button type="submit">Gerar Receita</button>
+</form>
+
+<div th:if="${receita != null}">
+    <h2>Receita sugerida</h2>
+
+    <pre th:text="${receita}"></pre>
+</div>
+
 </body>
 </html>
