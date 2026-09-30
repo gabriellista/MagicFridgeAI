@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.FutureOrPresent;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "food_item")
@@ -41,6 +42,7 @@ public class FoodItem {
 
     @NotNull(message = "A validade é obrigatória")
     @FutureOrPresent(message = "A validade não pode estar no passado")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate validade;
 
 }

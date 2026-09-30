@@ -70,4 +70,18 @@ public class HomeController {
 
         return "index";
     }
+
+    @GetMapping("/alimentos/editar/{id}")
+    public String editarAlimento(@PathVariable Long id, Model model) {
+        FoodItem alimento = foodItemService.buscarPorId(id).orElse(null);
+        if (alimento == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("novoAlimento", alimento);
+        model.addAttribute("alimentos", foodItemService.listarTodos());
+        model.addAttribute("categorias", CategoriaAlimento.values());
+        model.addAttribute("unidades", UnidadeMedida.values());
+
+        return "index";
+    }
 }

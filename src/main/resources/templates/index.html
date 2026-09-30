@@ -12,11 +12,15 @@
 
 <h2>Alimentos cadastrados</h2>
 
-<h2>Cadastrar alimento</h2>
+<h2 th:text="${novoAlimento.id == null ? 'Cadastrar alimento' : 'Editar alimento'}">
+    Cadastrar alimento
+</h2>
 
 <form th:action="@{/alimentos/salvar}"
       th:object="${novoAlimento}"
       method="post">
+
+    <input type="hidden" th:field="*{id}">
 
     <label>Nome:</label>
     <input type="text" th:field="*{nome}">
@@ -80,7 +84,10 @@
 
         <br><br>
 
-    <button type="submit">Cadastrar</button>
+    <button type="submit"
+            th:text="${novoAlimento.id == null ? 'Cadastrar' : 'Salvar alterações'}">
+        Cadastrar
+    </button>
 
 </form>
 
@@ -104,6 +111,9 @@
         <td th:text="${alimento.unidade}"></td>
         <td th:text="${alimento.validade}"></td>
         <td>
+            <a th:href="@{/alimentos/editar/{id}(id=${alimento.id})}">
+                Editar
+            </a>
             <form th:action="@{/alimentos/excluir/{id}(id=${alimento.id})}"
                   method="post">
 
