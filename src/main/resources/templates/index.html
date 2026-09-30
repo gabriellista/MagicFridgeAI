@@ -2,15 +2,22 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MagicFridgeAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 <body>
+
+<div class="container">
 
 <h1>MagicFridgeAI</h1>
 
 <p>Sua geladeira inteligente</p>
 
-<h2>Alimentos cadastrados</h2>
+
+    <section class="card">
 
 <h2 th:text="${novoAlimento.id == null ? 'Cadastrar alimento' : 'Editar alimento'}">
     Cadastrar alimento
@@ -22,76 +29,94 @@
 
     <input type="hidden" th:field="*{id}">
 
-    <label>Nome:</label>
-    <input type="text" th:field="*{nome}">
+    <div class="form-group">
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}">
 
-    <span th:if="${#fields.hasErrors('nome')}"
-          th:errors="*{nome}">
-</span>
-
-    <br><br>
-
-    <label>Categoria:</label>
-
-    <select th:field="*{categoria}">
-        <option value="">Selecione</option>
-
-        <option th:each="categoria : ${categorias}"
-                th:value="${categoria}"
-                th:text="${categoria}">
-        </option>
-    </select>
-
-    <span th:if="${#fields.hasErrors('categoria')}"
-          th:errors="*{categoria}">
-</span>
+        <span th:if="${#fields.hasErrors('nome')}"
+              th:errors="*{nome}">
+    </span>
+    </div>
 
     <br><br>
 
+    <div class="form-group">
+        <label>Categoria:</label>
+
+        <select th:field="*{categoria}">
+            <option value="">Selecione</option>
+
+            <option th:each="categoria : ${categorias}"
+                    th:value="${categoria}"
+                    th:text="${categoria}">
+            </option>
+        </select>
+
+        <span th:if="${#fields.hasErrors('categoria')}"
+              th:errors="*{categoria}">
+    </span>
+    </div>
+
+    <br><br>
+
+    <div class="form-group">
     <label>Quantidade:</label>
     <input type="number" th:field="*{quantidade}">
 
     <span th:if="${#fields.hasErrors('quantidade')}"
           th:errors="*{quantidade}">
 </span>
+    </div>
 
 
     <br><br>
 
-    <label>Unidade:</label>
+    <div class="form-group">
+        <label>Unidade:</label>
 
-    <select th:field="*{unidade}">
-        <option value="">Selecione</option>
+        <select th:field="*{unidade}">
+            <option value="">Selecione</option>
 
-        <option th:each="unidade : ${unidades}"
-                th:value="${unidade}"
-                th:text="${unidade}">
-        </option>
-    </select>
+            <option th:each="unidade : ${unidades}"
+                    th:value="${unidade}"
+                    th:text="${unidade}">
+            </option>
+        </select>
 
-    <span th:if="${#fields.hasErrors('unidade')}"
-          th:errors="*{unidade}">
-</span>
+        <span th:if="${#fields.hasErrors('unidade')}"
+              th:errors="*{unidade}">
+    </span>
+    </div>
 
     <br><br>
 
+    <div class="form-group">
     <label>Validade:</label>
     <input type="date" th:field="*{validade}">
 
     <span th:if="${#fields.hasErrors('validade')}"
           th:errors="*{validade}">
 </span>
+    </div>
 
         <br><br>
 
-    <button type="submit"
+    <button class="btn btn-primary" type="submit"
             th:text="${novoAlimento.id == null ? 'Cadastrar' : 'Salvar alterações'}">
         Cadastrar
     </button>
 
 </form>
 
-<table border="1">
+    </section>
+
+    <section class="card">
+
+        <h2>Alimentos cadastrados</h2>
+
+        <div class="table-responsive">
+
+<table>
     <thead>
     <tr>
         <th>Nome</th>
@@ -111,30 +136,36 @@
         <td th:text="${alimento.unidade}"></td>
         <td th:text="${alimento.validade}"></td>
         <td>
-            <a th:href="@{/alimentos/editar/{id}(id=${alimento.id})}">
+            <a class="btn btn-edit"
+               th:href="@{/alimentos/editar/{id}(id=${alimento.id})}">
                 Editar
             </a>
             <form th:action="@{/alimentos/excluir/{id}(id=${alimento.id})}"
                   method="post">
 
-                <button type="submit">Excluir</button>
+                <button class="btn btn-delete" type="submit">Excluir</button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
+        </div>
+    </section>
 
-<h2>Gerar receita</h2>
+    <section class="card">
 
-<form th:action="@{/receita/gerar}" method="post">
-    <button type="submit">Gerar Receita</button>
-</form>
+        <h2>Gerar receita</h2>
 
-<div th:if="${receita != null}">
-    <h2>Receita sugerida</h2>
+        <form th:action="@{/receita/gerar}" method="post">
+            <button class="btn btn-ai" type="submit">Gerar Receita</button>
+        </form>
 
-    <pre th:text="${receita}"></pre>
-</div>
+        <div class="receita-box" th:if="${receita != null}">
+            <h3>Receita sugerida</h3>
+            <pre th:text="${receita}"></pre>
+        </div>
+
+    </section>
 
 </body>
 </html>
