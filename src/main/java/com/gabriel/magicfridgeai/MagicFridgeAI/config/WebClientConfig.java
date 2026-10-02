@@ -10,19 +10,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
-@Bean
-public WebClient webClient(
+    @Bean
+    public WebClient webClient(
             @Value("${spring.ai.openai.api-key}") String apiKey) {
-    return WebClient.builder()
-            .baseUrl("https://api.openai.com/v1")
-            .defaultHeader(
-                    HttpHeaders.AUTHORIZATION,
-                    "Bearer " + apiKey
-            )
-            .defaultHeader(
-                    HttpHeaders.CONTENT_TYPE,
-                    MediaType.APPLICATION_JSON_VALUE
-            )
-            .build();
+
+        return WebClient.builder()
+                .baseUrl("https://api.openai.com/v1")
+                .defaultHeader(
+                        HttpHeaders.AUTHORIZATION,
+                        "Bearer " + apiKey
+                )
+                .defaultHeader(
+                        HttpHeaders.CONTENT_TYPE,
+                        MediaType.APPLICATION_JSON_VALUE
+                )
+                .build();
     }
 }
