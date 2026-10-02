@@ -158,6 +158,10 @@
 
         <form th:action="@{/receita/gerar}" method="post">
             <button class="btn btn-ai" type="submit">Gerar Receita</button>
+            <p class="erro-ia"
+               th:if="${erroReceita != null}"
+               th:text="${erroReceita}">
+            </p>
         </form>
 
         <div class="receita-box" th:if="${receita != null}">
@@ -166,6 +170,8 @@
         </div>
 
     </section>
+
+</div>
 
 </body>
 </html>

@@ -10,8 +10,8 @@ import java.util.List;
 
 public class ReceitaService {
 
-    FoodItemService foodItemService;
-    ChatGptService chatGptService;
+    private final FoodItemService foodItemService;
+    private final ChatGptService chatGptService;
 
     public ReceitaService(FoodItemService foodItemService, ChatGptService chatGptService) {
         this.foodItemService = foodItemService;
@@ -35,7 +35,7 @@ public class ReceitaService {
                 + "Você pode considerar apenas água, sal e óleo como ingredientes básicos adicionais. "
                 + "Responda de forma curta. "
                 + "Informe apenas nome da receita, ingredientes e modo de preparo. "
-                + " Escreva 'Modo de preparo:' apenas uma vez e depois liste os passos."
+                + "Escreva 'Modo de preparo:' apenas uma vez e depois liste os passos. "
                 + "Use no máximo 8 linhas";
         return chatGptService.gerarResposta(prompt);
     }

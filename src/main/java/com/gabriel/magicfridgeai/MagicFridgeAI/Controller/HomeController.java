@@ -61,13 +61,19 @@ public class HomeController {
 
     @PostMapping("/receita/gerar")
     public String gerarReceita(Model model) {
-        String receita = receitaService.gerarReceita().block();
-        model.addAttribute("receita", receita);
+        try {
+            String receita = receitaService.gerarReceita().block();
+            model.addAttribute("receita", receita);
+        } catch (RuntimeException exception) {
+            model.addAttribute(
+                    "erroReceita",
+                    "Não foi possível gerar a receita no momento. Tente novamente mais tarde."
+            );
+        }
         model.addAttribute("alimentos", foodItemService.listarTodos());
         model.addAttribute("novoAlimento", new FoodItem());
         model.addAttribute("categorias", CategoriaAlimento.values());
         model.addAttribute("unidades", UnidadeMedida.values());
-
         return "index";
     }
 
